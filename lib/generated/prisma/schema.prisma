@@ -1,0 +1,150 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                  String               @id @default(uuid())
+  clerk_user_id       String               @unique
+  email               String               @unique
+  name                String?
+  phone_number        String?
+  profile_picture     String?
+  role                User_Role            @default(USER)
+  created_at          DateTime             @default(now())
+  updated_at          DateTime             @updatedAt
+  saved_cars          Saved_Cars[]
+  test_drive_bookings Test_Drive_Booking[]
+}
+
+enum User_Role {
+  USER
+  ADMIN
+}
+
+model Cars {
+  id                  String               @id @default(uuid())
+  make                String
+  model               String
+  year                Int
+  price               Decimal              @db.Decimal(10, 2)
+  mileage             Int
+  color               String
+  fuel_type           String
+  transmission        String
+  body_type           String
+  description         String
+  seating_capacity    Int?
+  status              Car_Status           @default(AVAILABLE)
+  featured            Boolean              @default(false)
+  images              String[] //array of links/urls of images from supabase storage
+  saved_by            Saved_Cars[]
+  test_drive_bookings Test_Drive_Booking[]
+  created_at          DateTime             @default(now())
+  updated_at          DateTime             @updatedAt
+
+  @@index([make, model])
+  @@index([body_type])
+  @@index([price])
+  @@index([year])
+  @@index([status])
+  @@index([fuel_type])
+  @@index([featured])
+}
+
+enum Car_Status {
+  AVAILABLE
+  UNAVAILABLE
+  SOLD
+}
+
+model Dealership_Info {
+  id            String          @id @default(uuid())
+  name          String
+  address       String
+  phone_number  String
+  email         String
+  working_hours Working_Hours[]
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+}
+
+model Working_Hours {
+  id            String          @id @default(uuid())
+  dealership_id String
+  dealership    Dealership_Info @relation(fields: [dealership_id], references: [id], onDelete: Cascade)
+  day_of_week   Day_Of_Week
+  open_time     String
+  close_time    String
+  is_open       Boolean         @default(true)
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+
+  @@unique([dealership_id, day_of_week])
+  @@index([dealership_id])
+  @@index([day_of_week])
+  @@index([is_open])
+}
+
+enum Day_Of_Week {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+model Saved_Cars {
+  id       String   @id @default(uuid())
+  user_id  String
+  user     User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  car_id   String
+  car      Cars     @relation(fields: [car_id], references: [id], onDelete: Cascade)
+  saved_at DateTime @default(now())
+
+  @@unique([user_id, car_id])
+  @@index([user_id])
+  @@index([car_id])
+}
+
+model Test_Drive_Booking {
+  id           String         @id @default(uuid())
+  user_id      String
+  user         User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  car_id       String
+  car          Cars           @relation(fields: [car_id], references: [id], onDelete: Cascade)
+  booking_date DateTime       @db.Date
+  start_time   String
+  end_time     String
+  status       Booking_Status @default(PENDING)
+  notes        String?
+  created_at   DateTime       @default(now())
+  modified_at  DateTime       @updatedAt
+
+  @@index([car_id])
+  @@index([user_id])
+  @@index([booking_date])
+  @@index([status])
+}
+
+enum Booking_Status {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}

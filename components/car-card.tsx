@@ -64,14 +64,14 @@ const CarCard = ({ car }) => {
 					<span className="mx-2">•</span>
 					<span>{car.transmission}</span>
 					<span className="mx-2">•</span>
-					<span>{car.fuelType}</span>
+					<span>{car.fuel_type}</span>
 				</div>
 				<div className="flex flex-wrap gap-1 mb-4">
 					<Badge variant={"outline"} className="bg-gray-50">
-						{car.bodyType}
+						{car.body_type}
 					</Badge>
 					<Badge variant={"outline"} className="bg-gray-50">
-						{car.mileage.toLocaleString} miles
+						{car.mileage.toLocaleString()} miles
 					</Badge>
 					<Badge variant={"outline"} className="bg-gray-50">
 						{car.color}

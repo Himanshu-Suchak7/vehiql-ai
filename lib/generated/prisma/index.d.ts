@@ -9302,10 +9302,10 @@ export namespace Prisma {
 
   export type Dealership_InfoCreateInput = {
     id?: string
-    name: string
-    address: string
-    phone_number: string
-    email: string
+    name?: string
+    address?: string
+    phone_number?: string
+    email?: string
     created_at?: Date | string
     updated_at?: Date | string
     working_hours?: Working_HoursCreateNestedManyWithoutDealershipInput
@@ -9313,10 +9313,10 @@ export namespace Prisma {
 
   export type Dealership_InfoUncheckedCreateInput = {
     id?: string
-    name: string
-    address: string
-    phone_number: string
-    email: string
+    name?: string
+    address?: string
+    phone_number?: string
+    email?: string
     created_at?: Date | string
     updated_at?: Date | string
     working_hours?: Working_HoursUncheckedCreateNestedManyWithoutDealershipInput
@@ -9346,10 +9346,10 @@ export namespace Prisma {
 
   export type Dealership_InfoCreateManyInput = {
     id?: string
-    name: string
-    address: string
-    phone_number: string
-    email: string
+    name?: string
+    address?: string
+    phone_number?: string
+    email?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -11018,20 +11018,20 @@ export namespace Prisma {
 
   export type Dealership_InfoCreateWithoutWorking_hoursInput = {
     id?: string
-    name: string
-    address: string
-    phone_number: string
-    email: string
+    name?: string
+    address?: string
+    phone_number?: string
+    email?: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type Dealership_InfoUncheckedCreateWithoutWorking_hoursInput = {
     id?: string
-    name: string
-    address: string
-    phone_number: string
-    email: string
+    name?: string
+    address?: string
+    phone_number?: string
+    email?: string
     created_at?: Date | string
     updated_at?: Date | string
   }

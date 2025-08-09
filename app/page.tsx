@@ -13,8 +13,10 @@ import {
 	AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SignedOut } from "@clerk/nextjs";
+import { getFeaturedCars } from "@/actions/home";
 
-export default function Home() {
+export default async function Home() {
+	const featuredCars = await getFeaturedCars();
 	return (
 		<div className="pt-20 flex flex-col">
 			{/* Hero Section */}

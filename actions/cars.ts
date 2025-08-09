@@ -98,7 +98,7 @@ export async function processCarImageWithAI(file: File) {
                 success: true,
                 data: carDetails,
             }
-        } catch (error) {
+        } catch (parseError) {
             console.log("Failed to parse AI response:", parseError);
             return {
                 success: false,

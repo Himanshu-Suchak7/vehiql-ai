@@ -9,13 +9,13 @@ import { revalidatePath } from "next/cache";
 import { serializeCarData } from "@/lib/helper";
 
 // Function to convert image to base64
-async function fileToBase64(file) {
+async function fileToBase64(file: File | Blob) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     return buffer.toString("base64");
 }
 
-export async function processCarImageWithAI(file) {
+export async function processCarImageWithAI(file: File) {
     try {
         // check if gemini api is available or not
         if (!process.env.GEMINI_API_KEY) {
